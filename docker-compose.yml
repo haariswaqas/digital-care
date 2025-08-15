@@ -1,0 +1,70 @@
+services:
+  redis:
+    image: redis:7.2.3-alpine
+    restart: always
+    ports:
+      - "6380:6379"
+
+  postgres:
+    image: postgres:16
+    restart: always
+    environment:
+      POSTGRES_DB: digitalcare
+      POSTGRES_USER: haw
+      POSTGRES_PASSWORD: haw
+    volumes:
+      - digitalcare_postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5434:5432"
+
+  django:
+    build:
+      context: ./digitalcare
+    command: >
+      sh -c "
+      python manage.py migrate &&
+      python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - ./digitalcare:/usr/src/app/
+      - ./media:/usr/src/app/media
+    ports:
+      - "8003:8000"
+    environment:
+      DEBUG: "1"
+      SECRET_KEY: haaris
+      ALLOWED_HOSTS: "localhost,127.0.0.1"
+      POSTGRES_DB: digitalcare
+      POSTGRES_USER: haw
+      POSTGRES_PASSWORD: haw
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      CELERY_BROKER_URL: redis://redis:6379/0
+    depends_on:
+      - redis
+      - postgres
+    restart: always
+
+  celery:
+    build:
+      context: ./digitalcare
+    command: celery --app=digitalcare worker -l INFO
+    volumes:
+      - ./digitalcare:/usr/src/app/
+      - ./media:/usr/src/app/media
+    environment:
+      DEBUG: "1"
+      SECRET_KEY: haaris
+      ALLOWED_HOSTS: "localhost,127.0.0.1"
+      POSTGRES_DB: digitalcare
+      POSTGRES_USER: haw
+      POSTGRES_PASSWORD: haw
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      CELERY_BROKER_URL: redis://redis:6379/0
+    depends_on:
+      - redis
+      - postgres
+    restart: always
+
+volumes:
+  digitalcare_postgres_data:
