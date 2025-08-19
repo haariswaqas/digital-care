@@ -139,7 +139,7 @@ MEDIA_URL = "/media/"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-#AUTH_USER_MODEL = 'api.User'
+AUTH_USER_MODEL = 'api.User'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -180,8 +180,9 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
 
-CELERY_BROKER_URL = os.environ.get("CELERY_BROKER_URL", "redis://digitalcare_redis:6379/0")
-CELERY_RESULT_BACKEND = os.environ.get("CELERY_RESULT_BACKEND", "redis://digitalcare_redis:6379/0")
+CELERY_BROKER_URL = os.environ.get("CELERY_BROKER_URL", "redis://redis:6379/0")
+CELERY_RESULT_BACKEND = os.environ.get("CELERY_RESULT_BACKEND", "redis://redis:6379/0")
+
 
 
 
@@ -217,15 +218,15 @@ CORS_ALLOW_HEADERS = [
 ]
 
 # Email configuration example:
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # Use Django console backend to simulate email sending
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'haarisali9@gmail.com'
-EMAIL_HOST_PASSWORD = 'hello'
+EMAIL_HOST_USER = 'gmail'
+EMAIL_HOST_PASSWORD = 'app password here'
 DEFAULT_FROM_EMAIL = 'digitalcare@gmail.com'
 
 
