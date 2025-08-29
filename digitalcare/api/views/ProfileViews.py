@@ -11,11 +11,11 @@ from rest_framework import status
 from rest_framework.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404
 
-from ..models import StudentProfile, VisitorProfile, AdultProfile
+from ..models import StudentProfile, VisitorProfile, AdultProfile, DoctorProfile
 from ..serializers import (
     StudentProfileSerializer,
     VisitorProfileSerializer,
-    AdultProfileSerializer,
+    AdultProfileSerializer, DoctorProfileSerializer
 )
 
 
@@ -75,3 +75,8 @@ class AdultProfileView(BaseProfileView):
     serializer_class = AdultProfileSerializer
     model_class = AdultProfile
     role = "adult"
+
+class DoctorProfileView(BaseProfileView):
+    serializer_class = DoctorProfileSerializer
+    model_class = DoctorProfile
+    role = "doctor"

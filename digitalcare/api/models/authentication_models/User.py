@@ -11,16 +11,22 @@ class User(AbstractUser):
     email = models.EmailField(unique=True)
 
     ADMIN = 'admin'
+    FACILITY_ADMIN = 'facility_admin'
     STUDENT = 'student'
     ADULT = 'adult'
     VISITOR = 'visitor'
+    DOCTOR = 'doctor'
     
     
     ROLE_CHOICES = [
         (ADMIN, 'Admin'),
+        
+        (FACILITY_ADMIN, 'Facility Admin'),
         (STUDENT, 'Student'),
         (ADULT, 'Adult'),
-        (VISITOR, 'Visitor')
+        (VISITOR, 'Visitor'), 
+        (DOCTOR, 'Doctor')
+        
         
     ]
     ACTIVE = 'active'
