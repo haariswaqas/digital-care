@@ -15,7 +15,7 @@ def create_user_profile(sender, instance, created, **kwargs):
             DoctorProfile.objects.create(user=instance)
         elif instance.role == User.FACILITY_ADMIN:
             # Create a Facility and link it to this user
-            Facility.objects.create(admin=instance, status='pending')  # You can set other default fields as needed
+            Facility.objects.create(admin=instance, status='Pending')  # You can set other default fields as needed
 
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):

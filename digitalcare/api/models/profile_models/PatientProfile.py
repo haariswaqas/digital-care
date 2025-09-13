@@ -15,7 +15,7 @@ class PatientProfile(models.Model):
     middle_name = models.CharField(max_length=50, null=True, blank=True)
     last_name = models.CharField(max_length=50)
     profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
-    
+    address = models.TextField(blank=True, null=True)
     # Basic medical info common to all patients
     BLOOD_GROUPS = [
         ('A+', 'A Positive'),
@@ -33,6 +33,10 @@ class PatientProfile(models.Model):
     current_medications = models.TextField(null=True, blank=True)
     emergency_contact_name = models.CharField(max_length=100, null=True, blank=True)
     emergency_contact_phone = models.CharField(max_length=15, null=True, blank=True)
+    
+    # Location info for nearby provider search
+    latitude = models.FloatField(null=True, blank=True)
+    longitude = models.FloatField(null=True, blank=True)
     
     # Insurance/Payment info
     insurance_provider = models.CharField(max_length=100, null=True, blank=True)

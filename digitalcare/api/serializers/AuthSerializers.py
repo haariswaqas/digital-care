@@ -59,6 +59,8 @@ class RegisterSerializer(serializers.ModelSerializer):
     )
     password2 = serializers.CharField(write_only=True, required=True)
     role = serializers.ChoiceField(choices=User.ROLE_CHOICES, required=True)
+    latitude = serializers.FloatField(write_only=True, required=False)
+    longitude = serializers.FloatField(write_only=True, required=False)
 
     class Meta:
         model = User
@@ -69,7 +71,9 @@ class RegisterSerializer(serializers.ModelSerializer):
             'password2',
             'role',
             'status',
-            'phone_number'
+            'phone_number',
+            'latitude',
+            'longitude'
         ]
 
     def validate(self, attrs):
@@ -83,14 +87,33 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         password = validated_data.pop('password')
-        validated_data.pop('password2', None)  # not needed anymore
+        validated_data.pop('password2', None)  # Not needed anymore
+        latitude = validated_data.pop('latitude', None)
+        longitude = validated_data.pop('longitude', None)
 
-        # Create user and set password
+        # Create the user and set password
         user = User(**validated_data)
         user.set_password(password)
-        user.save()  # post_save signal creates the profile
+        user.save()  # profile created via post_save signal
+
+        # Update profile with latitude and longitude
+        profile = None
+        if user.role == User.ADULT and hasattr(user, 'adultprofile'):
+            profile = user.adultprofile
+        elif user.role == User.STUDENT and hasattr(user, 'studentprofile'):
+            profile = user.studentprofile
+        elif user.role == User.VISITOR and hasattr(user, 'visitorprofile'):
+            profile = user.visitorprofile
+
+        if profile:
+            if latitude is not None:
+                profile.latitude = latitude
+            if longitude is not None:
+                profile.longitude = longitude
+            profile.save()
 
         return user
+
 
 
 class OTPVerificationSerializer(serializers.Serializer):

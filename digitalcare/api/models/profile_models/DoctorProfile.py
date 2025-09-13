@@ -5,6 +5,11 @@ from ..facility_models import Facility
 
 class DoctorProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=100, null=True, blank=True)
+    middle_name = models.CharField(max_length=100, null=True, blank=True)
+    
+    last_name = models.CharField(max_length=100, null=True, blank=True)
+    
     specialty = models.CharField(max_length=150, blank=True)
     clinics = models.ManyToManyField(Facility, related_name='doctors', blank=True)
     is_active = models.BooleanField(default=True)
@@ -12,4 +17,4 @@ class DoctorProfile(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Dr. {self.user.get_full_name()}"
+        return f"{self.id }--- Dr. {self.first_name} {self.last_name}"

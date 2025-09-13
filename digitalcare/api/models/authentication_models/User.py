@@ -33,13 +33,17 @@ class User(AbstractUser):
     BANNED = 'banned'
     SUSPENDED = 'suspended'
     ON_LEAVE = 'on_leave'
+    PENDING = 'pending'
     
     STATUS_CHOICES = [
         (ACTIVE, 'Active'),
         (BANNED, 'Banned'),
         (SUSPENDED, 'Suspended'),
         (ON_LEAVE, 'On Leave'),
+        (PENDING, 'Pending')
+
     ]
+    
 
     phone_number = models.CharField(max_length=15,
         validators=[
