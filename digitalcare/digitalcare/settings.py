@@ -226,7 +226,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'haarisali9@gmail.com'
-EMAIL_HOST_PASSWORD = 'kglk rnpw xckx viaj'
+EMAIL_HOST_PASSWORD = 'password here'
 DEFAULT_FROM_EMAIL = 'digitalcare@gmail.com'
 
 
